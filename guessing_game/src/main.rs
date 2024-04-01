@@ -1,6 +1,7 @@
 use rand::Rng;
 use std::io;
 use std::cmp::Ordering;
+use std::process;
 
 fn main() {
     println!("Guess the number!");
@@ -10,15 +11,21 @@ fn main() {
     loop {
         println!("Please input your guess.");
 
-        let mut guess = String::new();
+        let mut input = String::new();
     
         io::stdin()
-            .read_line(&mut guess)
+            .read_line(&mut input)
             .expect("Failed to read line");
+
+        let trimmed_input = input.trim();
+
+        if trimmed_input.to_lowercase() == "quit" {
+            process::exit(0);
+        }
     
-        let guess: u32 = match guess.trim().parse() {
+        let guess: u32 = match input.trim().parse() {
             Ok(num) => num,
-            Err(_) => continue,
+            Err(_) => continue
         };
     
         println!("You guessed: {guess}");
